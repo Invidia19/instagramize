@@ -62,12 +62,20 @@ paste_x = int(round((INSTAGRAM_PHOTO_SIZE - image_resize_width) / 2))
 paste_y = int(round((INSTAGRAM_PHOTO_SIZE - image_resize_height) / 2))
 
 # Calculate background dimensions
-background_resize_width = int(round(INSTAGRAM_PHOTO_SIZE * image_aspect_ratio))
-background_resize_height = INSTAGRAM_PHOTO_SIZE
+if original_image_width > original_image_height:
+    background_resize_width = int(round(INSTAGRAM_PHOTO_SIZE * image_aspect_ratio))
+    background_resize_height = INSTAGRAM_PHOTO_SIZE
+else:
+    background_resize_width = INSTAGRAM_PHOTO_SIZE
+    background_resize_height = int(round(INSTAGRAM_PHOTO_SIZE / image_aspect_ratio))
 
 # Calculate background crop dimensions
-background_crop_dimension = int(round(abs(INSTAGRAM_PHOTO_SIZE - background_resize_width) / 2))
-background_crop_tuple = (background_crop_dimension, 0, background_crop_dimension + INSTAGRAM_PHOTO_SIZE, INSTAGRAM_PHOTO_SIZE)
+if original_image_width > original_image_height:
+    background_crop_dimension = int(round(abs(INSTAGRAM_PHOTO_SIZE - background_resize_width) / 2))
+    background_crop_tuple = (background_crop_dimension, 0, background_crop_dimension + INSTAGRAM_PHOTO_SIZE, INSTAGRAM_PHOTO_SIZE)
+else:
+    background_crop_dimension = int(round(abs(INSTAGRAM_PHOTO_SIZE - background_resize_height) / 2))
+    background_crop_tuple = (background_crop_dimension, 0, background_crop_dimension + INSTAGRAM_PHOTO_SIZE, INSTAGRAM_PHOTO_SIZE)
 
 # flip all the tuples if height is greater than width
 if original_image_height > original_image_width:
